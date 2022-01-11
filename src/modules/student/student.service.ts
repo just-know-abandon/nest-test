@@ -60,14 +60,22 @@ export class StudentService {
 
   // 更新学生信息
   async updateById(post): Promise<StudentDB> {
-    const { STUDENT_ID } = post
+    const { STUDENT_ID, COLLEGE_ID, CLASS_ID, STUDENT_NAME, MOBILE_PHONE, ID_CARD_NO, GENDER, BIRTH, ENTRY_DATE, UPDATED_BY } = post
     const existPost = await this.studentRepository.findOne({
-      where : {STUDENT_ID: STUDENT_ID}
+      where : { STUDENT_ID }
     });
     if (!existPost) {
       throw new HttpException(`STUDENT_ID为${STUDENT_ID}的学生不存在`, 401);
     }
-    existPost.STUDENT_NAME = post.STUDENT_NAME
+    existPost.COLLEGE_ID = COLLEGE_ID
+    existPost.CLASS_ID = CLASS_ID
+    existPost.STUDENT_NAME = STUDENT_NAME
+    existPost.MOBILE_PHONE = MOBILE_PHONE
+    existPost.ID_CARD_NO = ID_CARD_NO
+    existPost.GENDER = GENDER
+    existPost.BIRTH = BIRTH
+    existPost.ENTRY_DATE = ENTRY_DATE
+    existPost.UPDATED_BY = UPDATED_BY
     const result = this.studentRepository.save(existPost);
     return result
   }

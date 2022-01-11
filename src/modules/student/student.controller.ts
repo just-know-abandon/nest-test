@@ -24,7 +24,7 @@ export class StudentController {
 
   /**
    * 获取指定学生信息
-   * @param id 
+   * @param post 
    */
   @Post('getStudentInfoById')
   async findById(@Body() post) {
@@ -42,7 +42,7 @@ export class StudentController {
 
   /**
    * 删除
-   * @param id 
+   * @param post 
    */
   @Post("deleteByStudentId")
   async remove(@Body() post){
