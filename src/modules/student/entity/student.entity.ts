@@ -10,28 +10,26 @@ import { Column, Entity, PrimaryGeneratedColumn, CreateDateColumn, UpdateDateCol
 // @UpdateDateColumn()          这个列会在插入和更新的时候以当前时间赋值
 
 
-@Entity("college")
-export class CollegeDB {
+@Entity("student")
+export class StudentDB {
+  // 专业ID
   @PrimaryGeneratedColumn()
-  COLLEGE_ID:number;
-  // 学院名称
+  MAJOR_ID:number;
+  // 专业名称
   @Column({ length: 90})
-  COLLEGE_NAME: string;
-  // 学院简称
+  MAJOR_NAME: string;
+  // 专业简称
   @Column({ length: 90})
   SHORT_NAME: string;
-  // 学院介绍
+  // 开设日期
+  @CreateDateColumn()
+  ESTAB_DATE: Date
+  // 专业介绍
   @Column({ length: 900})
   INTRO: string;
-  // 专业个数
-  @Column('int')
-  PROFESSION_NUMBER:number
-  // 学生人数
-  @Column('int')
-  STUDENT_NUMBER:number
-  // 院长
-  @Column({ length: 90})
-  PRESIDENT: string;
+  // 学费
+  @Column('text')
+  TUITION_FEE: string;
   // 创建人
   @Column({ length: 32})
   CREATED_BY: string;

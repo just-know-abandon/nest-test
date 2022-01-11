@@ -4,6 +4,9 @@ import { AppController } from './app.controller';
 import { AppService } from './app.service';
 import { CollegeModule } from './modules/college/college.module';
 import { TypeOrmModule } from '@nestjs/typeorm'
+import { MajorModule } from './modules/major/major.module';
+import { StudentModule } from './modules/student/student.module';
+import { BanModule } from './modules/ban/ban.module';
 
 @Module({
   imports: [
@@ -18,7 +21,10 @@ import { TypeOrmModule } from '@nestjs/typeorm'
       entities: ["dist/modules/**/*.entity{.ts,.js}"],
       synchronize: true,
     }),
-    CollegeModule
+    CollegeModule,
+    MajorModule,
+    StudentModule,
+    BanModule
   ],
   controllers: [AppController],
   providers: [AppService],
