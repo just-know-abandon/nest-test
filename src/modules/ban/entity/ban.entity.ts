@@ -9,9 +9,20 @@ import { Column, Entity, PrimaryGeneratedColumn, CreateDateColumn, UpdateDateCol
 // @CreateDateColumn()          这个列会在插入的时候自动以当前时间赋值，更新时不改变值
 // @UpdateDateColumn()          这个列会在插入和更新的时候以当前时间赋值
 
+// 可选参数
+// name: 真正映射到mysql数据库中字段名字,如果不指定会默认以对象的字段为名字(建议都指定)
+// length: 长度,比如在mysql中字段为varchar的时候指定字段长度
+// nullable: 在mysql中字段是否可以为NULL值,默认为false
+// select: 改字段是否可以被查询出来(针对使用typeORM的查寻操作,不针对你使用原生SQL语句操作),默认为true表示可以被查询出来
+// default: 默认值,比如插入数据的时候,没传递该字段的值,就默认一个值
+// unique: 是否唯一约束
+// comment: 备注该字段是做什么的(建议都写上,方便阅读)
+// enum: 枚举类型
+// array: 该列是否以数组
+
 
 @Entity("ban")
-export class banDB {
+export class BanDB {
   // 班级ID
   @PrimaryGeneratedColumn()
   CLASS_ID:number;
@@ -35,13 +46,13 @@ export class banDB {
   @Column({type: 'timestamp', default: () => "CURRENT_TIMESTAMP"})
   ESTAB_DATE: Date
   // 创建人
-  @Column({ length: 32})
+  @Column({ length: 32, nullable: true})
   CREATED_BY: string;
   // 创建时间
   @CreateDateColumn()
   CREATED_TIME: Date
   // 更新人
-  @Column({ length: 32})
+  @Column({ length: 32, nullable: true})
   UPDATED_BY: string;
   
   //更新时间
