@@ -1,4 +1,5 @@
-import { Column, Entity, PrimaryGeneratedColumn, CreateDateColumn, UpdateDateColumn} from "typeorm";
+import { Column, Entity, PrimaryGeneratedColumn, CreateDateColumn, UpdateDateColumn, ManyToOne, JoinColumn } from "typeorm";
+import { BanDB } from '../../ban/entity/ban.entity'
 
 // @PrimaryGeneratedColumn       自增主键
 // @Column({ length: 30})        长度限制为30的string列，对应数据库里就是varchar类型
@@ -73,5 +74,9 @@ export class StudentDB {
   //更新时间
   @UpdateDateColumn()
   UPDATED_TIME: Date
+
+  @ManyToOne(() => BanDB, (ban) => ban.student)
+  @JoinColumn({ name: 'Ban_Id' })
+  ban: BanDB;
 }
 

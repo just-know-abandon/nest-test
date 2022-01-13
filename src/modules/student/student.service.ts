@@ -7,6 +7,9 @@ export interface StudentRo {
   list: StudentDB[];
   count: number;
 }
+export interface StudentRo2 {
+  list: StudentDB[]
+}
 @Injectable()
 export class StudentService {
   constructor(
@@ -36,7 +39,9 @@ export class StudentService {
   // 获取学生列表
   async findAll(query): Promise<StudentRo> {
     const qb = await getRepository(StudentDB).createQueryBuilder('student');
+    qb.leftJoinAndSelect("student.ban", "ban")
     qb.where('1 = 1');
+    // qb.where(`ban.CLASS_NAME = '软件123班'`);
     qb.orderBy('student.CREATED_TIME', 'DESC');
 
     const count = await qb.getCount();
@@ -49,13 +54,19 @@ export class StudentService {
   }
 
   // 获取指定学生信息
-  async findById(post): Promise<StudentDB> {
+  async findById(post): Promise<StudentRo2> {
     const { STUDENT_ID } = post
     const existPost = await this.studentRepository.findOne(STUDENT_ID);
     if (!existPost) {
       throw new HttpException(`STUDENT_ID为${STUDENT_ID}的学生不存在`, 401);
     }
-    return existPost;
+    const qb = await getRepository(StudentDB).createQueryBuilder('student');
+    qb.leftJoinAndSelect("student.ban", "ban")
+    qb.where('1 = 1');
+    qb.where(`student.STUDENT_ID = ${STUDENT_ID}`);
+
+    const posts = await qb.getMany();
+    return { list: posts };
   }
 
   // 更新学生信息

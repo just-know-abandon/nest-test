@@ -7,6 +7,9 @@ export interface BanRo {
   list: BanDB[];
   count: number;
 }
+export interface BanRo2 {
+  list: BanDB[];
+}
 @Injectable()
 export class BanService {
   constructor(
@@ -33,10 +36,12 @@ export class BanService {
     return await this.banRepository.save(post);
   }
   
-  // 获取学生列表
+  // 获取班级列表
   async findAll(query): Promise<BanRo> {
     const qb = await getRepository(BanDB).createQueryBuilder('ban');
+    qb.leftJoinAndSelect("ban.student", "student")
     qb.where('1 = 1');
+    // qb.where('student.STUDENT_ID = 2');
     qb.orderBy('ban.CREATED_TIME', 'DESC');
 
     const count = await qb.getCount();
@@ -49,13 +54,19 @@ export class BanService {
   }
 
   // 获取指定班级信息
-  async findById(post): Promise<BanDB> {
+  async findById(post): Promise<BanRo2> {
     const { CLASS_ID } = post
     const existPost = await this.banRepository.findOne(CLASS_ID);
     if (!existPost) {
       throw new HttpException(`CLASS_ID为${CLASS_ID}的班级不存在`, 401);
     }
-    return existPost;
+    const qb = await getRepository(BanDB).createQueryBuilder('ban');
+    qb.leftJoinAndSelect("ban.student", "student")
+    qb.where('1 = 1');
+    qb.where(`ban.CLASS_ID = ${CLASS_ID}`);
+
+    const posts = await qb.getMany();
+    return { list: posts };
   }
 
   // 更新班级信息
