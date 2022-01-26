@@ -1,6 +1,7 @@
 import { StudentService, StudentRo } from './student.service';
 import { Body, Controller, Delete, Get, Param, Post, Put, Query } from '@nestjs/common';
 import { ApiTags, ApiOperation } from '@nestjs/swagger';
+import { StudentDto } from './dto/student.dto'
 
 @ApiTags("学生表")
 @Controller('student')
@@ -42,7 +43,7 @@ export class StudentController {
    */
   @ApiOperation({ summary: '更新学生信息' })
   @Post('updateInfo')
-  async updateById(@Body() post){
+  async updateById(@Body() post: StudentDto){
       return await this.StudentService.updateById(post)
   }
 

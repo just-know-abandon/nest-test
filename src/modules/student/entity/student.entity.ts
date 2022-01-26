@@ -28,8 +28,9 @@ export class StudentDB {
   STUDENT_ID:number;
 
   // 所在学院ID
-  @Column({ length: 32})
-  COLLEGE_ID: string;
+  @Column()
+  // COLLEGE_ID: string;
+  COLLEGE_ID: number;
 
   // 所在班级ID
   @Column({ length: 32})
